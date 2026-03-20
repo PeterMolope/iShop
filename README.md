@@ -1,7 +1,7 @@
-### iShop: Smart Grocery List & Shopping Assistant
-##iShop is a streamlined, intuitive mobile application designed to simplify the grocery shopping experience. No more forgotten items or messy paper lists—iShop keeps your pantry stocked and your shopping trips efficient.
+# iShop: Smart Grocery List & Shopping Assistant
+## iShop is a streamlined, intuitive mobile application designed to simplify the grocery shopping experience. No more forgotten items or messy paper lists—iShop keeps your pantry stocked and your shopping trips efficient.
 
-# 🚀 Features
+### 🚀 Features
 Smart Categorization: Automatically groups items by aisle (Produce, Dairy, Frozen, etc.) to save you time in the store.
 
 Real-time Sync: Share lists with family or roommates; updates reflect instantly across all devices.
