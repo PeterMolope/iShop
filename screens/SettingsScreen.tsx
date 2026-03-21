@@ -1,39 +1,40 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function SettingsScreen() {
   const [notifications, setNotifications] = useState(true);
   const [locationServices, setLocationServices] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.header }]}>
         <Text style={styles.title}>Settings</Text>
       </View>
       
       <ScrollView style={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Account</Text>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Profile Information</Text>
-            <Text style={styles.settingValue}>Edit</Text>
+        <View style={[styles.section, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Account</Text>
+          <TouchableOpacity style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Profile Information</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Payment Methods</Text>
-            <Text style={styles.settingValue}>Manage</Text>
+          <TouchableOpacity style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Payment Methods</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>Manage</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Delivery Addresses</Text>
-            <Text style={styles.settingValue}>View</Text>
+          <TouchableOpacity style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Delivery Addresses</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>View</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Push Notifications</Text>
+        <View style={[styles.section, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text, borderBottomColor: colors.border }]}>Preferences</Text>
+          <View style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Push Notifications</Text>
             <Switch
               value={notifications}
               onValueChange={setNotifications}
@@ -41,8 +42,8 @@ export default function SettingsScreen() {
               thumbColor={notifications ? '#ffffff' : '#f4f3f4'}
             />
           </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Location Services</Text>
+          <View style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Location Services</Text>
             <Switch
               value={locationServices}
               onValueChange={setLocationServices}
@@ -50,62 +51,62 @@ export default function SettingsScreen() {
               thumbColor={locationServices ? '#ffffff' : '#f4f3f4'}
             />
           </View>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Dark Mode</Text>
+          <View style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Dark Mode</Text>
             <Switch
-              value={darkMode}
-              onValueChange={setDarkMode}
+              value={isDarkMode}
+              onValueChange={toggleDarkMode}
               trackColor={{ false: '#767577', true: '#4CAF50' }}
-              thumbColor={darkMode ? '#ffffff' : '#f4f3f4'}
+              thumbColor={isDarkMode ? '#ffffff' : '#f4f3f4'}
             />
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Shopping</Text>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Order History</Text>
-            <Text style={styles.settingValue}>View</Text>
+        <View style={[styles.section, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text, borderBottomColor: colors.border }]}>Shopping</Text>
+          <TouchableOpacity style={[styles.settingItem, { borderBottomColor: colors.border }]}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Order History</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>View</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Wishlist</Text>
-            <Text style={styles.settingValue}>12 items</Text>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Wishlist</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>12 items</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Shopping Lists</Text>
-            <Text style={styles.settingValue}>3 lists</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Support</Text>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Help Center</Text>
-            <Text style={styles.settingValue}>FAQ</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Contact Us</Text>
-            <Text style={styles.settingValue}>Email</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Terms & Conditions</Text>
-            <Text style={styles.settingValue}>View</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Privacy Policy</Text>
-            <Text style={styles.settingValue}>View</Text>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Shopping Lists</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>3 lists</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
+        <View style={[styles.section, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text, borderBottomColor: colors.border }]}>Support</Text>
           <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>App Version</Text>
-            <Text style={styles.settingValue}>1.0.0</Text>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Help Center</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>FAQ</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingLabel}>Rate App</Text>
-            <Text style={styles.settingValue}>Rate</Text>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Contact Us</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>Email</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingItem}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Terms & Conditions</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>View</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingItem}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Privacy Policy</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>View</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.section, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text, borderBottomColor: colors.border }]}>About</Text>
+          <TouchableOpacity style={styles.settingItem}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>App Version</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>1.0.0</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingItem}>
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Rate App</Text>
+            <Text style={[styles.settingValue, { color: colors.text }]}>Rate</Text>
           </TouchableOpacity>
         </View>
 

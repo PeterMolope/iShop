@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme } from '../contexts/ThemeContext';
 
 const groceryData = [
   { id: 1, name: 'Fresh Apples', category: 'Fruits', price: '$3.99', inStock: true },
@@ -13,22 +14,24 @@ const groceryData = [
 ];
 
 export default function DashboardScreen() {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.primary }]}>
         <Text style={styles.title}>iShop</Text>
         <Text style={styles.subtitle}>Your Grocery Store</Text>
       </View>
       
       <ScrollView style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Featured Products</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Featured Products</Text>
           {groceryData.map((item) => (
-            <TouchableOpacity key={item.id} style={styles.productCard}>
+            <TouchableOpacity key={item.id} style={[styles.productCard, { backgroundColor: colors.card }]}>
               <View style={styles.productInfo}>
-                <Text style={styles.productName}>{item.name}</Text>
-                <Text style={styles.productCategory}>{item.category}</Text>
-                <Text style={styles.productPrice}>{item.price}</Text>
+                <Text style={[styles.productName, { color: colors.text }]}>{item.name}</Text>
+                <Text style={[styles.productCategory, { color: colors.text }]}>{item.category}</Text>
+                <Text style={[styles.productPrice, { color: colors.primary }]}>{item.price}</Text>
               </View>
               <View style={styles.stockStatus}>
                 <Text style={[

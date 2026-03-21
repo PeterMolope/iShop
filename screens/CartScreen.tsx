@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme } from '../contexts/ThemeContext';
 
 const cartItems = [
   { id: 1, name: 'Fresh Apples', quantity: 2, price: '$3.99', total: '$7.98' },
@@ -13,9 +14,11 @@ const tax = '$1.55';
 const total = '$20.88';
 
 export default function CartScreen() {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.secondary }]}>
         <Text style={styles.title}>Shopping Cart</Text>
         <Text style={styles.itemCount}>{cartItems.length} items</Text>
       </View>
@@ -23,10 +26,10 @@ export default function CartScreen() {
       <ScrollView style={styles.content}>
         <View style={styles.itemsSection}>
           {cartItems.map((item) => (
-            <View key={item.id} style={styles.cartItem}>
+            <View key={item.id} style={[styles.cartItem, { backgroundColor: colors.card }]}>
               <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemPrice}>{item.price}</Text>
+                <Text style={[styles.itemName, { color: colors.text }]}>{item.name}</Text>
+                <Text style={[styles.itemPrice, { color: colors.text }]}>{item.price}</Text>
               </View>
               <View style={styles.quantitySection}>
                 <TouchableOpacity style={styles.quantityButton}>
@@ -38,7 +41,7 @@ export default function CartScreen() {
                 </TouchableOpacity>
               </View>
               <View style={styles.totalSection}>
-                <Text style={styles.itemTotal}>{item.total}</Text>
+                <Text style={[styles.itemTotal, { color: colors.secondary }]}>{item.total}</Text>
                 <TouchableOpacity style={styles.removeButton}>
                   <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
@@ -47,22 +50,22 @@ export default function CartScreen() {
           ))}
         </View>
         
-        <View style={styles.summarySection}>
+        <View style={[styles.summarySection, { backgroundColor: colors.card }]}>
           <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Subtotal</Text>
-            <Text style={styles.summaryValue}>{subtotal}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.text }]}>Subtotal</Text>
+            <Text style={[styles.summaryValue, { color: colors.text }]}>{subtotal}</Text>
           </View>
           <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Tax</Text>
-            <Text style={styles.summaryValue}>{tax}</Text>
+            <Text style={[styles.summaryLabel, { color: colors.text }]}>Tax</Text>
+            <Text style={[styles.summaryValue, { color: colors.text }]}>{tax}</Text>
           </View>
-          <View style={[styles.summaryRow, styles.totalRow]}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>{total}</Text>
+          <View style={[styles.summaryRow, styles.totalRow, { borderTopColor: colors.border }]}>
+            <Text style={[styles.totalLabel, { color: colors.text }]}>Total</Text>
+            <Text style={[styles.totalValue, { color: colors.secondary }]}>{total}</Text>
           </View>
         </View>
         
-        <TouchableOpacity style={styles.checkoutButton}>
+        <TouchableOpacity style={[styles.checkoutButton, { backgroundColor: colors.secondary }]}>
           <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
         </TouchableOpacity>
       </ScrollView>
