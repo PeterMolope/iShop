@@ -33,7 +33,7 @@ export default function DashboardScreen() {
               <View style={styles.stockStatus}>
                 <Text style={[
                   styles.stockText, 
-                  { color: item.inStock ? '#4CAF50' : '#F44336' }
+                  { color: item.inStock ? '#176619' : '#F44336' }
                 ]}>
                   {item.inStock ? 'In Stock' : 'Out of Stock'}
                 </Text>
