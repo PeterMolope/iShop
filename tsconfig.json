@@ -1,6 +1,13 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "expo-module-scripts/tsconfig.base": ["./node_modules/expo-module-scripts/tsconfig.base.json"]
+    }
+  },
+  "exclude": [
+    "node_modules/expo-status-bar/tsconfig.json"
+  ]
 }

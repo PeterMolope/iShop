@@ -2,12 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { BlurView } from 'expo-blur';
 import DashboardScreen from './screens/DashboardScreen';
 import CartScreen from './screens/CartScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import SplashScreen from './screens/SplashScreen';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { AmbientBackground } from './components/AmbientBackground';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -20,19 +22,32 @@ function TabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colors.tabBar,
-          borderTopWidth: 1,
-          borderTopColor: colors.tabBarBorder,
-          paddingBottom: 8,
-          paddingTop: 8,
-          height: 80,
+          position: 'absolute',
+          bottom: 20,
+          left: 20,
+          right: 20,
+          height: 70,
+          backgroundColor: 'transparent',
+          borderTopWidth: 0,
+          elevation: 0,
+        },
+        tabBarItemStyle: {
+          height: 50,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '600',
+          letterSpacing: -0.5,
         },
         tabBarActiveTintColor: colors.tabBarActive,
         tabBarInactiveTintColor: colors.tabBarInactive,
+        tabBarBackground: () => (
+          <BlurView
+            intensity={80}
+            tint={colors.background === '#050506' ? 'dark' : 'light'}
+            style={styles.tabBarBlur}
+          />
+        ),
       }}
     >
       <Tab.Screen 
@@ -67,13 +82,15 @@ function AppContent() {
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Main" component={TabNavigator} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </View>
+    <AmbientBackground>
+      <SafeAreaView style={[styles.container, { backgroundColor: 'transparent' }]}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Main" component={TabNavigator} />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </SafeAreaView>
+    </AmbientBackground>
   );
 }
 
@@ -90,6 +107,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+  },
+  tabBarBlur: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 25,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(255,255,255,0.1)',
+    overflow: 'hidden',
   },
 });

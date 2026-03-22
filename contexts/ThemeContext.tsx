@@ -11,45 +11,54 @@ interface ThemeContextType {
     border: string;
     primary: string;
     secondary: string;
+    accent: string;
     tabBar: string;
     tabBarBorder: string;
     tabBarActive: string;
     tabBarInactive: string;
     header: string;
     headerText: string;
+    glass: string;
+    glow: string;
   };
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const lightColors = {
-  background: '#f5f5f5',
-  card: '#ffffff',
-  text: '#333333',
-  border: '#e0e0e0',
-  primary: '#2196F3',
-  secondary: '#FF9800',
-  tabBar: '#ffffff',
-  tabBarBorder: '#e0e0e0',
-  tabBarActive: '#2196F3',
+  background: '#fafafa',
+  card: 'rgba(255,255,255,0.8)',
+  text: '#0a0a0a',
+  border: 'rgba(0,0,0,0.08)',
+  primary: '#5E6AD2',
+  secondary: '#FF6B6B',
+  accent: '#4ECDC4',
+  tabBar: 'rgba(255,255,255,0.9)',
+  tabBarBorder: 'rgba(0,0,0,0.05)',
+  tabBarActive: '#5E6AD2',
   tabBarInactive: '#666666',
-  header: '#FF9800',
+  header: '#5E6AD2',
   headerText: '#ffffff',
+  glass: 'rgba(255,255,255,0.05)',
+  glow: 'rgba(94,106,210,0.15)',
 };
 
 const darkColors = {
-  background: '#121212',
-  card: '#1e1e1e',
+  background: '#050506',
+  card: 'rgba(255,255,255,0.05)',
   text: '#ffffff',
-  border: '#333333',
-  primary: '#64B5F6',
-  secondary: '#FFB74D',
-  tabBar: '#1e1e1e',
-  tabBarBorder: '#333333',
-  tabBarActive: '#64B5F6',
-  tabBarInactive: '#888888',
-  header: '#FF9800',
+  border: 'rgba(255,255,255,0.08)',
+  primary: '#5E6AD2',
+  secondary: '#FF6B6B',
+  accent: '#4ECDC4',
+  tabBar: 'rgba(5,5,6,0.9)',
+  tabBarBorder: 'rgba(255,255,255,0.08)',
+  tabBarActive: '#5E6AD2',
+  tabBarInactive: '#666666',
+  header: '#5E6AD2',
   headerText: '#ffffff',
+  glass: 'rgba(255,255,255,0.05)',
+  glow: 'rgba(94,106,210,0.25)',
 };
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

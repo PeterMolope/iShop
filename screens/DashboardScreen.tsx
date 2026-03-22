@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { useTheme } from '../contexts/ThemeContext';
+import { GlassCard, PrecisionButton, TouchGlow, BudgetSlider } from '../components';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 const groceryData = [
   { id: 1, name: 'Fresh Apples', category: 'Fruits', price: '$3.99', inStock: true },
@@ -15,34 +18,87 @@ const groceryData = [
 
 export default function DashboardScreen() {
   const { colors } = useTheme();
+  const scrollY = useSharedValue(0);
+  const [budget, setBudget] = React.useState(50);
+  
+  const headerScale = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { scale: Math.max(0.8, 1 - scrollY.value / 200) },
+      ],
+      opacity: Math.max(0.7, 1 - scrollY.value / 300),
+    };
+  });
+
+  const handleItemPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.primary }]}>
-        <Text style={styles.title}>iShop</Text>
-        <Text style={styles.subtitle}>Your Grocery Store</Text>
-      </View>
+    <View style={[styles.container, { backgroundColor: 'transparent' }]}>
+      <Animated.View style={[styles.header, headerScale]}>
+        <Text style={[styles.title, { color: colors.headerText }]}>iShop</Text>
+        <Text style={[styles.subtitle, { color: colors.headerText, opacity: 0.9 }]}>Your Grocery Store</Text>
+      </Animated.View>
       
-      <ScrollView style={styles.content}>
+      <ScrollView 
+        style={styles.content}
+        onScroll={(e) => {
+          scrollY.value = e.nativeEvent.contentOffset.y;
+        }}
+        scrollEventThrottle={16}
+      >
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Featured Products</Text>
           {groceryData.map((item) => (
-            <TouchableOpacity key={item.id} style={[styles.productCard, { backgroundColor: colors.card }]}>
-              <View style={styles.productInfo}>
-                <Text style={[styles.productName, { color: colors.text }]}>{item.name}</Text>
-                <Text style={[styles.productCategory, { color: colors.text }]}>{item.category}</Text>
-                <Text style={[styles.productPrice, { color: colors.primary }]}>{item.price}</Text>
-              </View>
-              <View style={styles.stockStatus}>
-                <Text style={[
-                  styles.stockText, 
-                  { color: item.inStock ? '#176619' : '#F44336' }
-                ]}>
-                  {item.inStock ? 'In Stock' : 'Out of Stock'}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <TouchGlow key={item.id} onPress={handleItemPress} style={styles.productCard}>
+              <GlassCard style={styles.productInner}>
+                <View style={styles.productPressable}>
+                  <View style={styles.productInfo}>
+                    <Text style={[styles.productName, { color: colors.text, letterSpacing: -0.5 }]}>{item.name}</Text>
+                    <Text style={[styles.productCategory, { color: colors.text, opacity: 0.7 }]}>{item.category}</Text>
+                    <Text style={[styles.productPrice, { color: colors.primary }]}>{item.price}</Text>
+                  </View>
+                  <View style={styles.stockStatus}>
+                    <Text style={[
+                      styles.stockText, 
+                      { color: item.inStock ? colors.accent : colors.secondary }
+                    ]}>
+                      {item.inStock ? 'In Stock' : 'Out of Stock'}
+                    </Text>
+                  </View>
+                </View>
+              </GlassCard>
+            </TouchGlow>
           ))}
+        </View>
+        
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Budget Settings</Text>
+          <GlassCard style={styles.budgetCard}>
+            <BudgetSlider
+              min={10}
+              max={200}
+              value={budget}
+              onValueChange={setBudget}
+            />
+          </GlassCard>
+        </View>
+        
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
+          <View style={styles.actionButtons}>
+            <PrecisionButton 
+              title="Add to Cart" 
+              variant="primary"
+              onPress={() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)}
+            />
+            <PrecisionButton 
+              title="View Cart" 
+              variant="secondary"
+              onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -52,68 +108,61 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   header: {
-    backgroundColor: '#2196F3',
-    padding: 20,
     paddingTop: 60,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: 32,
+    fontWeight: '700',
+    letterSpacing: -1,
   },
   subtitle: {
     fontSize: 16,
-    color: 'white',
-    opacity: 0.9,
     marginTop: 4,
+    letterSpacing: -0.5,
   },
   content: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 20,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 32,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '700',
     marginBottom: 16,
-    color: '#333',
+    letterSpacing: -0.5,
   },
   productCard: {
-    backgroundColor: 'white',
-    padding: 16,
     marginBottom: 12,
-    borderRadius: 8,
+  },
+  productInner: {
+    flex: 1,
+  },
+  productPressable: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingVertical: 4,
   },
   productInfo: {
     flex: 1,
   },
   productName: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: '600',
   },
   productCategory: {
     fontSize: 14,
-    color: '#666',
-    marginTop: 4,
+    marginTop: 2,
   },
   productPrice: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2196F3',
+    fontWeight: '600',
     marginTop: 4,
   },
   stockStatus: {
@@ -121,6 +170,13 @@ const styles = StyleSheet.create({
   },
   stockText: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    letterSpacing: -0.5,
+  },
+  actionButtons: {
+    gap: 12,
+  },
+  budgetCard: {
+    padding: 20,
   },
 });
