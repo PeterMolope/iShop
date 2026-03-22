@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAccessibleColors } from '../hooks/useAccessibleColors';
 import { GlassCard, PrecisionButton, TouchGlow, BudgetSlider } from '../components';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
@@ -18,6 +19,7 @@ const groceryData = [
 
 export default function DashboardScreen() {
   const { colors } = useTheme();
+  const { primaryText, secondaryText, headerText } = useAccessibleColors();
   const scrollY = useSharedValue(0);
   const [budget, setBudget] = React.useState(50);
   
@@ -35,10 +37,10 @@ export default function DashboardScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: 'transparent' }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Animated.View style={[styles.header, headerScale]}>
-        <Text style={[styles.title, { color: colors.headerText }]}>iShop</Text>
-        <Text style={[styles.subtitle, { color: colors.headerText, opacity: 0.9 }]}>Your Grocery Store</Text>
+        <Text style={[styles.title, { color: headerText }]}>iShop</Text>
+        <Text style={[styles.subtitle, { color: secondaryText }]}>Your Grocery Store</Text>
       </Animated.View>
       
       <ScrollView 
@@ -49,14 +51,14 @@ export default function DashboardScreen() {
         scrollEventThrottle={16}
       >
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Featured Products</Text>
+          <Text style={[styles.sectionTitle, { color: primaryText }]}>Featured Products</Text>
           {groceryData.map((item) => (
             <TouchGlow key={item.id} onPress={handleItemPress} style={styles.productCard}>
               <GlassCard style={styles.productInner}>
                 <View style={styles.productPressable}>
                   <View style={styles.productInfo}>
-                    <Text style={[styles.productName, { color: colors.text, letterSpacing: -0.5 }]}>{item.name}</Text>
-                    <Text style={[styles.productCategory, { color: colors.text, opacity: 0.7 }]}>{item.category}</Text>
+                    <Text style={[styles.productName, { color: primaryText, letterSpacing: -0.5 }]}>{item.name}</Text>
+                    <Text style={[styles.productCategory, { color: secondaryText }]}>{item.category}</Text>
                     <Text style={[styles.productPrice, { color: colors.primary }]}>{item.price}</Text>
                   </View>
                   <View style={styles.stockStatus}>
@@ -74,7 +76,7 @@ export default function DashboardScreen() {
         </View>
         
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Budget Settings</Text>
+          <Text style={[styles.sectionTitle, { color: primaryText }]}>Budget Settings</Text>
           <GlassCard style={styles.budgetCard}>
             <BudgetSlider
               min={10}
@@ -86,7 +88,7 @@ export default function DashboardScreen() {
         </View>
         
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
+          <Text style={[styles.sectionTitle, { color: primaryText }]}>Quick Actions</Text>
           <View style={styles.actionButtons}>
             <PrecisionButton 
               title="Add to Cart" 

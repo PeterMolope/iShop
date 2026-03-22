@@ -10,6 +10,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import SplashScreen from './screens/SplashScreen';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { AmbientBackground } from './components/AmbientBackground';
+import { TabIcon } from './components/TabIcon';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,18 +35,13 @@ function TabNavigator() {
         tabBarItemStyle: {
           height: 50,
         },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          letterSpacing: -0.5,
-        },
         tabBarActiveTintColor: colors.tabBarActive,
         tabBarInactiveTintColor: colors.tabBarInactive,
         tabBarBackground: () => (
           <BlurView
             intensity={80}
             tint={colors.background === '#050506' ? 'dark' : 'light'}
-            style={styles.tabBarBlur}
+            style={[styles.tabBarBlur, { borderColor: colors.glassBorder }]}
           />
         ),
       }}
@@ -54,24 +50,30 @@ function TabNavigator() {
         name="Dashboard" 
         component={DashboardScreen}
         options={{
-          tabBarLabel: 'Shop',
-          tabBarIcon: () => null,
+          tabBarLabel: 'Shop', // Keep for accessibility
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} name="Shop" />
+          ),
         }}
       />
       <Tab.Screen 
         name="Cart" 
         component={CartScreen}
         options={{
-          tabBarLabel: 'Cart',
-          tabBarIcon: () => null,
+          tabBarLabel: 'Cart', // Keep for accessibility
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} name="Cart" />
+          ),
         }}
       />
       <Tab.Screen 
         name="Settings" 
         component={SettingsScreen}
         options={{
-          tabBarLabel: 'Settings',
-          tabBarIcon: () => null,
+          tabBarLabel: 'Settings', // Keep for accessibility
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} name="Settings" />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: 25,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(255,255,255,0.1)',
     overflow: 'hidden',
   },
 });

@@ -20,6 +20,7 @@ interface ThemeContextType {
     headerText: string;
     glass: string;
     glow: string;
+    glassBorder: string;
   };
 }
 
@@ -38,9 +39,10 @@ const lightColors = {
   tabBarActive: '#5E6AD2',
   tabBarInactive: '#666666',
   header: '#5E6AD2',
-  headerText: '#ffffff',
-  glass: 'rgba(255,255,255,0.05)',
+  headerText: '#0a0a0a', // Dark text for light mode
+  glass: 'rgba(0,0,0,0.02)', // Dark glass for light mode
   glow: 'rgba(94,106,210,0.15)',
+  glassBorder: 'rgba(0,0,0,0.05)', // Dark border for light mode
 };
 
 const darkColors = {
@@ -56,9 +58,10 @@ const darkColors = {
   tabBarActive: '#5E6AD2',
   tabBarInactive: '#666666',
   header: '#5E6AD2',
-  headerText: '#ffffff',
-  glass: 'rgba(255,255,255,0.05)',
+  headerText: '#ffffff', // Light text for dark mode
+  glass: 'rgba(255,255,255,0.05)', // Light glass for dark mode
   glow: 'rgba(94,106,210,0.25)',
+  glassBorder: 'rgba(255,255,255,0.1)', // Light border for dark mode
 };
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

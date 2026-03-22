@@ -13,7 +13,7 @@ export function GlassCard({ children, style, intensity = 80 }: GlassCardProps) {
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, { borderColor: colors.glassBorder }, style]}>
       <BlurView
         intensity={intensity}
         tint={colors.background === '#050506' ? 'dark' : 'light'}
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(255,255,255,0.1)',
   },
   blur: {
     flex: 1,
